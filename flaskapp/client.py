@@ -2,7 +2,7 @@
 import os
 from io import BytesIO
 import base64
-
+import requests
 
 img_data = None
 # создаем путь к файлу (для кросс-платформенности, например)
