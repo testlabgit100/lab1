@@ -77,11 +77,11 @@ def net():
         # записываем в словарь данные классификации
         for elem in decode:
             neurodic[elem[0][1]] = elem[0][2]
-       # сохраняем загруженный файл
-       form.upload.data.save(filename)
-# передаем форму в шаблон, так же передаем имя файла и результат работы нейронной
-# сети, если был нажат сабмит, либо передадим falsy значения
-return render_template('net.html',form=form,image_name=filename,neurodic=neurodic)
+        # сохраняем загруженный файл
+        form.upload.data.save(filename)
+    # передаем форму в шаблон, так же передаем имя файла и результат работы нейронной
+    # сети, если был нажат сабмит, либо передадим falsy значения
+    return render_template('net.html',form=form,image_name=filename,neurodic=neurodic)
 
 
 from flask import request
@@ -120,8 +120,8 @@ def apinet():
         ret = json.dumps(neurodic) 
         # готовим ответ пользовател
         resp = Response(response=ret, status=200, mimetype="application/json")
-# возвращаем ответ
-return resp      
+    # возвращаем ответ
+    return resp      
 
 
 import lxml.etree as ET
@@ -137,5 +137,4 @@ def apixml():
     newhtml = transform(dom)
     #преобразуем из памяти dom в строку, возможно, понадобится указать кодировку
     strfile = ET.tostring(newhtml) 
-    return strfile
-   
+    return strfile   
