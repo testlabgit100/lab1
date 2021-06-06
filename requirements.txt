@@ -4,6 +4,5 @@ requests
 Flask-Bootstrap
 Flask-WTF
 Pillow
-tensorflow
 Keras
 lxml
