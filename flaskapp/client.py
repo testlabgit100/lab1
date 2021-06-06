@@ -3,6 +3,7 @@ import os
 from io import BytesIO
 import base64
 
+
 img_data = None
 # создаем путь к файлу (для кросс-платформенности, например)
 path = os.path.join('./static', 'image0008.png')
