@@ -1,16 +1,13 @@
-language: python 
-before_install: 
- - chmod +x ./flaskapp/st.sh 
-install: 
- - pip3 install flask==1.1.2 
- - pip3 install gunicorn==20.0.4 
- - pip3 install requests==2.23.0
- - pip3 install flask-bootstrap==3.3.7.1 
- - pip3 install flask-wtf==0.14.3
- - pip3 install pillow==6.2.2 
- - pip3 install tensorflow==2.0.1
- - pip3 install keras==2.3.1 
- - pip3 install lxml==4.3.3
-script: 
- - cd flaskapp
- - ./st.sh
+language: python
+python:
+  - "3.7.6"
+
+before_install:
+  - chmod +x ./flaskapp/st.sh
+ 
+install:
+  - pip install -r requirements.txt
+script:
+  - cd flaskapp
+  - ./st.sh
+
