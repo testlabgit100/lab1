@@ -1,5 +1,6 @@
 import random
 import keras
+
 from keras.layers import Input
 from keras.models import Model
 
