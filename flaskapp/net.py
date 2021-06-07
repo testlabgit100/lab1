@@ -1,10 +1,10 @@
 import random
 import keras
 
-from keras.layers import Input
-from keras.models import Model
+from tensorflow.keras.layers import Input
+from tensorflow.keras.models import Model
 
-from keras.applications.resnet50 import preprocess_input, decode_predictions
+from tensorflow.keras.applications.resnet50 import preprocess_input, decode_predictions
 import os
 from PIL import Image
 import numpy as np
