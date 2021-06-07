@@ -1,17 +1,22 @@
-print("Hello world") 
-
+print("Hello world")
 
 from flask import Flask
-app = Flask(__name__) 
-#декоратор для вывода страницы по умолчанию
-@app.route("/") 
+
+app = Flask(__name__)
+
+
+# декоратор для вывода страницы по умолчанию
+@app.route("/")
 def hello():
     return " <html><head></head> <body> Hello World! </body></html>"
-if __name__ == "__main__": 
+
+
+if __name__ == "__main__":
     app.run(host='127.0.0.1', port=5000)
 
-
 from flask import render_template
+
+
 # наша новая функция сайта
 @app.route("/data_to")
 def data_to():
@@ -61,8 +66,8 @@ class NetForm(FlaskForm):
     recaptcha = RecaptchaField()
     # кнопка submit, для пользователя отображена как send
     submit = SubmitField('send')
-    
-    
+
+
 # функция обработки запросов на адрес 127.0.0.1:5000/net
 # модуль проверки и преобразование имени файла
 # для устранения в имени символов типа / и т.д.
@@ -71,31 +76,33 @@ import os
 # подключаем наш модуль и переименовываем
 # для исключения конфликта имен
 import net as neuronet
+
+
 # метод обработки запроса GET и POST от клиента
-@app.route("/net",methods=['GET', 'POST'])
+@app.route("/net", methods=['GET', 'POST'])
 def net():
     # создаем объект формы
     form = NetForm()
     # обнуляем переменные, передаваемые в форму
-    filename=None
+    filename = None
     neurodic = {}
-    # проверяем нажатие сабмит и валидацию введенных данных 
-    if form.validate_on_submit(): 
-    # файлы с изображениями читаются из каталога static
+    # проверяем нажатие сабмит и валидацию введенных данных
+    if form.validate_on_submit():
+        # файлы с изображениями читаются из каталога static
         filename = os.path.join('./static', secure_filename(form.upload.data.filename))
-        fcount, fimage = neuronet.read_image_files(10,'./static') 
+        fcount, fimage = neuronet.read_image_files(10, './static')
         # передаем все изображения в каталоге на классификацию
         # можете изменить немного код и передать только загруженный файл
         decode = neuronet.getresult(fimage)
         # записываем в словарь данные классификации
         for elem in decode:
-            neurodic[elem[0][1]] = elem[0][2] 
-        # сохраняем загруженный файл
+            neurodic[elem[0][1]] = elem[0][2]
+            # сохраняем загруженный файл
         form.upload.data.save(filename)
     # передаем форму в шаблон, так же передаем имя файла и результат работы нейронной
     # сети, если был нажат сабмит, либо передадим falsy значения
-    return render_template('net.html',form=form,image_name=filename,neurodic=neurodic) 
- 
+    return render_template('net.html', form=form, image_name=filename, neurodic=neurodic)
+
 
 from flask import request
 from flask import Response
@@ -103,21 +110,23 @@ import base64
 from PIL import Image
 from io import BytesIO
 import json
-# метод для обработки запроса от пользователя 
-@app.route("/apinet",methods=['GET', 'POST'])
+
+
+# метод для обработки запроса от пользователя
+@app.route("/apinet", methods=['GET', 'POST'])
 def apinet():
-    neurodic = {} 
+    neurodic = {}
     # проверяем, что в запросе json данные
     if request.mimetype == 'application/json':
         # получаем json данные
         data = request.get_json()
-        # берем содержимое по ключу, где хранится файл 
+        # берем содержимое по ключу, где хранится файл
         # закодированный строкой base64
         # декодируем строку в массив байт, используя кодировку utf-8
         # первые 128 байт ascii и utf-8 совпадают, потому можно
-        filebytes = data['imagebin'].encode('utf-8') 
+        filebytes = data['imagebin'].encode('utf-8')
         # декодируем массив байт base64 в исходный файл изображение
-        cfile = base64.b64decode(filebytes) 
+        cfile = base64.b64decode(filebytes)
         # чтобы считать изображение как файл из памяти, используем BytesIO
         img = Image.open(BytesIO(cfile))
         decode = neuronet.getresult([img])
@@ -130,24 +139,26 @@ def apinet():
         # handle.write(cfile)
         # handle.close()
         # преобразуем словарь в json-строку
-        ret = json.dumps(neurodic) 
+        ret = json.dumps(neurodic)
         # готовим ответ пользовател
         resp = Response(response=ret, status=200, mimetype="application/json")
     # возвращаем ответ
-    return resp      
+    return resp
 
 
 import lxml.etree as ET
-@app.route("/apixml",methods=['GET', 'POST'])
+
+
+@app.route("/apixml", methods=['GET', 'POST'])
 def apixml():
-    #парсим xml файл в dom
-    dom = ET.parse("./static/xml/file.xml") 
-    #парсим шаблон в dom
-    xslt = ET.parse("./static/xml/file.xslt") 
-    #получаем трансформер
+    # парсим xml файл в dom
+    dom = ET.parse("./static/xml/file.xml")
+    # парсим шаблон в dom
+    xslt = ET.parse("./static/xml/file.xslt")
+    # получаем трансформер
     transform = ET.XSLT(xslt)
-    #преобразуем xml с помощью трансформера xslt
+    # преобразуем xml с помощью трансформера xslt
     newhtml = transform(dom)
-    #преобразуем из памяти dom в строку, возможно, понадобится указать кодировку
-    strfile = ET.tostring(newhtml) 
-    return strfile   
+    # преобразуем из памяти dom в строку, возможно, понадобится указать кодировку
+    strfile = ET.tostring(newhtml)
+    return strfile
