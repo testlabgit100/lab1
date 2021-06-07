@@ -1,5 +1,4 @@
 import random
-import keras
 
 from tensorflow.keras.layers import Input
 from tensorflow.keras.models import Model
@@ -27,7 +26,7 @@ nw=224
 ncol=3
 
 visible2 = Input(shape=(nh,nw,ncol),name = 'imginp')
-resnet = keras.applications.resnet_v2.ResNet50V2(include_top=True, weights='imagenet', input_tensor=visible2, input_shape=None, pooling=None, classes=1000)
+resnet = tensorflow.keras.applications.resnet_v2.ResNet50V2(include_top=True, weights='imagenet', input_tensor=visible2, input_shape=None, pooling=None, classes=1000)
 
 
 
