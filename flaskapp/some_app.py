@@ -75,7 +75,7 @@ from werkzeug.utils import secure_filename
 import os
 # подключаем наш модуль и переименовываем
 # для исключения конфликта имен
-import net as neuronet
+#import net as neuronet
 
 
 # метод обработки запроса GET и POST от клиента
