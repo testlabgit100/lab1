@@ -10,4 +10,3 @@ install:
 script:
   - cd flaskapp
   - ./st.sh
-

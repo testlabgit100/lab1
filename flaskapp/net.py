@@ -36,7 +36,7 @@
 
 
 #    if(files_max_count>len(files)): # определяем количество файлов не больше max
-        files_count = len(files)
+#        files_count = len(files)
 #    image_box = [[]]*files_count
 #   for file_i in range(files_count): # читаем изображения в список
 #        image_box[file_i] = Image.open(dir_name+'/'+files[file_i]) #  / ??
